@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Name — Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,450;1,450&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg: #0d1013;
+    --bg-raised: #14181c;
+    --line: rgba(237,234,228,0.14);
+    --ink: #edeae4;
+    --ink-dim: #a9a49a;
+    --amber: #e8a33d;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, .display{
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 450;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  a{ color: inherit; }
+  img{ max-width: 100%; display: block; }
+
+  .wrap{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  :focus-visible{
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+
+  /* ---------- Header + Tabs ---------- */
+
+  header.site-head{
+    padding: 40px 32px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .head-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-bottom: 28px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .brand{
+    font-size: 1.6rem;
+    font-style: italic;
+  }
+
+  .tagline{
+    color: var(--ink-dim);
+    font-size: 0.9rem;
+    max-width: 34ch;
+  }
+
+  nav.tabs{
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    gap: 8px;
+  }
+
+  .tab-btn{
+    background: none;
+    border: none;
+    color: var(--ink-dim);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    padding: 14px 6px;
+    margin-right: 28px;
+    cursor: pointer;
+    position: relative;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .tab-btn:hover{ color: var(--ink); }
+
+  .tab-btn.active{
+    color: var(--ink);
+    border-bottom-color: var(--amber);
+  }
+
+  /* ---------- Panels ---------- */
+
+  .panel{
+    display: none;
+    padding: 72px 0 120px;
+  }
+
+  .panel.active{ display: block; }
+
+  .panel-head{
+    margin-bottom: 44px;
+    max-width: 60ch;
+  }
+
+  .panel-head h2{
+    font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+    margin-bottom: 12px;
+  }
+
+  .panel-head p{
+    color: var(--ink-dim);
+    font-size: 0.98rem;
+    margin: 0;
+  }
+
+  /* ---------- Masonry gallery ---------- */
+
+  .masonry{
+    column-count: 3;
+    column-gap: 18px;
+  }
+
+  .frame{
+    break-inside: avoid;
+    margin: 0 0 18px;
+    background: var(--bg-raised);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .frame img{
+    width: 100%;
+    filter: grayscale(0.12);
+    transition: transform 0.6s ease, filter 0.6s ease;
+  }
+
+  .frame:hover img{
+    transform: scale(1.03);
+    filter: grayscale(0);
+  }
+
+  .frame figcaption{
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 12px 14px;
+    font-size: 0.78rem;
+    color: var(--ink);
+    background: linear-gradient(0deg, rgba(9,11,13,0.88), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .frame:hover figcaption{ opacity: 1; }
+
+  .empty-state{
+    border: 1px dashed var(--line);
+    padding: 56px 32px;
+    text-align: center;
+    color: var(--ink-dim);
+    font-size: 0.95rem;
+    max-width: 60ch;
+  }
+
+  /* ---------- About ---------- */
+
+  .about-grid{
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .about-portrait img{
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    filter: grayscale(0.25) contrast(1.05);
+    background: var(--bg-raised);
+  }
+
+  .about-copy p{
+    font-size: 1.02rem;
+    max-width: 56ch;
+    color: var(--ink-dim);
+  }
+
+  .about-copy p + p{ margin-top: 16px; }
+
+  /* ---------- Contact (inside About tab) ---------- */
+
+  .contact-block{
+    margin-top: 56px;
+    padding-top: 48px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 64px;
+  }
+
+  .contact-lead{
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-family: 'Fraunces', serif;
+    max-width: 18ch;
+    line-height: 1.15;
+  }
+
+  .contact-lead em{ font-style: italic; color: var(--amber); }
+
+  .contact-links{
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .contact-links a{
+    text-decoration: none;
+    font-size: 1.05rem;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    color: var(--ink-dim);
+    transition: color 0.2s ease, padding-left 0.2s ease;
+  }
+
+  .contact-links a:hover{
+    color: var(--ink);
+    padding-left: 6px;
+  }
+
+  form{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  label{
+    font-size: 0.8rem;
+    color: var(--ink-dim);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  input, textarea{
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    padding: 10px 2px;
+  }
+
+  input:focus, textarea:focus{
+    outline: none;
+    border-color: var(--amber);
+  }
+
+  textarea{ resize: vertical; min-height: 80px; }
+
+  .send-btn{
+    margin-top: 12px;
+    align-self: flex-start;
+    background: var(--amber);
+    color: #14100a;
+    border: none;
+    padding: 14px 28px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .send-btn:hover{ background: #f3b559; }
+
+  footer{
+    padding: 32px;
+    text-align: center;
+    color: var(--ink-dim);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--line);
+  }
+
+  /* ---------- Responsive ---------- */
+
+  @media (max-width: 900px){
+    .masonry{ column-count: 2; }
+    .about-grid{ grid-template-columns: 1fr; }
+    .about-portrait{ max-width: 320px; }
+    .contact-block{ grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  @media (max-width: 560px){
+    .masonry{ column-count: 1; }
+    header.site-head{ padding: 28px 20px 0; }
+    .wrap{ padding: 0 20px; }
+    nav.tabs{ padding: 0 20px; gap: 0; }
+    .tab-btn{ margin-right: 20px; padding: 12px 2px; }
+  }
+
+</style>
+</head>
+<body>
+
+  <header class="site-head">
+    <div class="head-row">
+      <div>
+        <div class="brand">Your Name</div>
+        <p class="tagline">Replace this with a one-line description of your photography.</p>
+      </div>
+    </div>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="art">Art</button>
+      <button class="tab-btn" data-tab="photojournalism">Photojournalism</button>
+      <button class="tab-btn" data-tab="about">About Me</button>
+    </nav>
+  </header>
+
+  <main class="wrap">
+
+    <section id="art" class="panel active">
+      <div class="panel-head">
+        <h2>Art</h2>
+        <p>A working selection of personal and gallery-based work. Replace this line with your own description.</p>
+      </div>
+      <div class="masonry">
+        <figure class="frame">
+          <img src="photos/art/curved-facade.jpg" alt="Curved white balcony facade of a mid-century hotel building with red flowering branches in the foreground" loading="lazy">
+          <figcaption>Curved Facade</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="photos/art/sunset-watch.jpg" alt="Silhouette of a person seated under a thatched structure watching the sun set over the ocean" loading="lazy">
+          <figcaption>Sunset Watch</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="photos/art/espresso-truck.jpg" alt="A red food truck parked outside a coffee shop with a hand-painted shaka sign" loading="lazy">
+          <figcaption>Espresso Truck</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="photos/art/twin-crosses.jpg" alt="Black and white photo of a domed bell tower and a cross against a plain sky" loading="lazy">
+          <figcaption>Twin Crosses</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="photos/art/fractured-reflection.jpg" alt="A pedestrian reflected and fragmented across angled glass panels" loading="lazy">
+          <figcaption>Fractured Reflection</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="photos/art/information.jpg" alt="Silhouette of a person's profile against a backlit Information sign" loading="lazy">
+          <figcaption>Information</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="photos/art/represent.jpg" alt="Aerial view of two people walking away, one wearing a hoodie that reads Represent" loading="lazy">
+          <figcaption>Represent</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="photos/art/gallery-watchers.jpg" alt="Black and white photo of two visitors talking in a gallery, framed through a sculpture" loading="lazy">
+          <figcaption>Gallery Watchers</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="photos/art/corridor.jpg" alt="Black and white silhouette of a woman walking through a museum corridor" loading="lazy">
+          <figcaption>Corridor</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="photos/art/dream-nation.jpg" alt="A dark room with an old CRT television displaying a video art piece titled Dream Nation" loading="lazy">
+          <figcaption>Dream Nation</figcaption>
+        </figure>
+        <figure class="frame">
+          <img src="photos/art/folded-newspaper.jpg" alt="Black and white close-up of a hand holding a folded newspaper page" loading="lazy">
+          <figcaption>Folded Newspaper</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="photojournalism" class="panel">
+      <div class="panel-head">
+        <h2>Photojournalism</h2>
+        <p>Documentary and reportage work. Replace this line with your own description.</p>
+      </div>
+      <div class="masonry">
+        <!--
+          Put image files in the photos/photojournalism folder, then add
+          one block like this per photo (copy this comment as a template):
+
+          <figure class="frame">
+            <img src="photos/photojournalism/your-file.jpg" alt="Describe the photo" loading="lazy">
+            <figcaption>Photo title</figcaption>
+          </figure>
+        -->
+      </div>
+      <div class="empty-state">
+        No photos here yet — add your photojournalism work by following the pattern shown in the HTML comment above.
+      </div>
+    </section>
+
+    <section id="about" class="panel">
+      <div class="panel-head">
+        <h2>About</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-portrait">
+          <img src="YOUR-PORTRAIT.jpg" alt="Replace with a portrait of yourself">
+        </div>
+        <div class="about-copy">
+          <p>Write a short paragraph about who you are and what you shoot — your style, subject matter, and what draws you to it.</p>
+          <p>Add a second paragraph on your background: how you got started, any gear or approach that defines your work.</p>
+          <p>A third paragraph on what you're doing now — current projects, the kind of work you're looking for.</p>
+        </div>
+      </div>
+
+      <div class="contact-block">
+        <div>
+          <p class="contact-lead">Have a project<br>in mind? <em>Let's talk.</em></p>
+          <div class="contact-links">
+            <a href="mailto:you@example.com"><span>Email</span><span>you@example.com</span></a>
+            <a href="#"><span>Instagram</span><span>@yourhandle</span></a>
+          </div>
+        </div>
+        <form onsubmit="return false;">
+          <div>
+            <label for="name">Name</label>
+            <input id="name" type="text" placeholder="Your name">
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="you@example.com">
+          </div>
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Tell me about the project"></textarea>
+          </div>
+          <button class="send-btn" type="submit">Send message</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 Your Name.
+  </footer>
+
+  <script>
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.panel');
+
+    function showTab(name){
+      tabButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === name));
+      panels.forEach(panel => panel.classList.toggle('active', panel.id === name));
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => showTab(btn.dataset.tab));
+    });
+  </script>
+
+</body>
+</html>
